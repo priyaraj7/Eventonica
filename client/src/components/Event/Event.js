@@ -13,11 +13,33 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import SearchIcon from "@mui/icons-material/Search";
 
 import AddEvent from "./AddEvent";
 import DeleteEvent from "./DeleteEvent";
 import FindEvent from "./FindEvent";
 
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
+
+// Mock data
 const Event = () => {
   const mockEvents = [
     {
@@ -45,28 +67,42 @@ const Event = () => {
     },
   ];
 
-  const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
-    },
-  }));
+  // State
+  const [events, setEvents] = useState(mockEvents);
+  const [toggleFavorite, setToggleFavorite] = useState(false);
 
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.action.hover,
-    },
-    // hide last border
-    "&:last-child td, &:last-child th": {
-      border: 0,
-    },
-  }));
+  // Add Event
+  const handleAddEventOnSubmit = (newEvent) => {
+    // Filtering the event handler to make it idempotent
+    // https://github.com/facebook/react/issues/16295
+    const existingEvents = events.filter((e) => e.id !== newEvent.id);
+    setEvents([...existingEvents, { ...newEvent, favorite: false }]);
+  };
+
+  // Delete Event
+  const handleDeleteEvent = (id) => {
+    const deleteEvent = events.filter((eve) => eve.id !== id);
+    setEvents(deleteEvent);
+  };
+
+  // Toggle Favorite
+  const handleToggleFavorite = (id) => {
+    const event = events.find((ev) => ev.id === id);
+    event.favorite = !event.favorite;
+    setToggleFavorite(!toggleFavorite);
+    setEvents(events);
+  };
+
+  // SearchEvent
+  const handleSearchEvent = (category) => {
+    // debugger;
+    const filterEvent = events.filter((eve) => {
+      return eve.category === category;
+    });
+    setEvents(filterEvent);
+  };
 
   const renderHeader = () => {
-    // return headerElement.map((header, index) => {
     return (
       <>
         <StyledTableCell></StyledTableCell>
@@ -78,7 +114,6 @@ const Event = () => {
         <StyledTableCell align="right">DELETE</StyledTableCell>
       </>
     );
-    // });
   };
 
   const renderBody = () => {
@@ -113,34 +148,10 @@ const Event = () => {
     });
   };
 
-  const [events, setEvents] = useState(mockEvents);
-  const [toggleFavorite, setToggleFavorite] = useState(false);
-
-  const handleAddEventOnSubmit = (newEvent) => {
-    // Filtering the event handler to make it idempotent
-    // https://github.com/facebook/react/issues/16295
-    const existingEvents = events.filter((e) => e.id != newEvent.id);
-    setEvents([...existingEvents, { ...newEvent, favorite: false }]);
-  };
-
-  const handleDeleteEvent = (id) => {
-    const deleteEvent = events.filter((eve) => eve.id !== id);
-    setEvents(deleteEvent);
-  };
-
-  const handleToggleFavorite = (id) => {
-    const event = events.find((ev) => ev.id === id);
-    event.favorite = !event.favorite;
-    setToggleFavorite(!toggleFavorite);
-    setEvents(events);
-  };
-
   return (
     <section className="event-management">
-      <h2>Event Management</h2>
+      <FindEvent handleSearchEvent={handleSearchEvent} />
       <div>
-        <h3>All Events</h3>
-
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
@@ -151,8 +162,7 @@ const Event = () => {
         </TableContainer>
 
         <AddEvent onAdd={handleAddEventOnSubmit} />
-        <DeleteEvent />
-        <FindEvent />
+        {/* <DeleteEvent /> */}
       </div>
     </section>
   );
