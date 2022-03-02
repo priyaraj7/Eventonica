@@ -117,7 +117,10 @@ const Event = () => {
   const [toggleFavorite, setToggleFavorite] = useState(false);
 
   const handleAddEventOnSubmit = (newEvent) => {
-    setEvents([...events, { ...newEvent, favorite: false }]);
+    // Filtering the event handler to make it idempotent
+    // https://github.com/facebook/react/issues/16295
+    const existingEvents = events.filter((e) => e.id != newEvent.id);
+    setEvents([...existingEvents, { ...newEvent, favorite: false }]);
   };
 
   const handleDeleteEvent = (id) => {

@@ -94,6 +94,7 @@ const AddEvent = ({ onAdd }) => {
               dispatch({ type: "editDate", payload: event.target.value })
             }
             value={state.date}
+            required
           />
           <TextField
             onChange={(event) =>
