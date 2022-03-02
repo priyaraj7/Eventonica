@@ -8,11 +8,12 @@ const AddEvent = ({ onAdd }) => {
   }/${current.getFullYear()}`;
 
   const initialState = {
-    id: "1",
-    name: "suppi",
-    date: Date.now(),
-    description: "Something",
-    category: "cat",
+    id: "",
+    name: "",
+    date: "",
+    description: "",
+    category: "",
+    isFavorite: false,
     maxAttendees: 10,
   };
 
@@ -31,6 +32,8 @@ const AddEvent = ({ onAdd }) => {
 
       case "editDate":
         return { ...state, date: action.payload };
+      case "editId":
+        return { ...state, id: action.payload };
       case "save":
         onAdd({ ...state });
       case "clear":
@@ -67,7 +70,7 @@ const AddEvent = ({ onAdd }) => {
             onChange={(event) =>
               dispatch({ type: "editName", payload: event.target.value })
             }
-            defaultValue={state.name}
+            value={state.name}
             label="Event name"
             variant="standard"
             required
@@ -78,7 +81,7 @@ const AddEvent = ({ onAdd }) => {
             }
             label="category"
             variant="standard"
-            defaultValue={state.category}
+            value={state.category}
             required
           />
 
@@ -87,7 +90,10 @@ const AddEvent = ({ onAdd }) => {
             label="Date"
             InputLabelProps={{ shrink: true, required: true }}
             type="date"
-            defaultValue={state.date}
+            onChange={(event) =>
+              dispatch({ type: "editDate", payload: event.target.value })
+            }
+            value={state.date}
           />
           <TextField
             onChange={(event) =>
@@ -98,14 +104,16 @@ const AddEvent = ({ onAdd }) => {
             multiline
             fullWidth
             required
-            defaultValue={state.description}
+            value={state.description}
           />
           <TextField
-            // onChange={(e) => setDetails(e.target.value)}
+            onChange={(ev) =>
+              dispatch({ type: "editId", payload: ev.target.value })
+            }
             label="id"
             variant="standard"
             required
-            defaultValue={state.id}
+            value={state.id}
           />
           <Button type="submit" variant="contained">
             Submit
@@ -117,6 +125,5 @@ const AddEvent = ({ onAdd }) => {
 };
 
 export default AddEvent;
-// / onSubmit={handleSubmit}>
 
 //https://devtrium.com/posts/how-to-use-react-usereducer-hook

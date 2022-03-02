@@ -1,4 +1,19 @@
 import React, { useState } from "react";
+import { styled } from "@mui/material/styles";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import {
+  Table,
+  TableBody,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Button,
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+
 import AddEvent from "./AddEvent";
 import DeleteEvent from "./DeleteEvent";
 import FindEvent from "./FindEvent";
@@ -30,36 +45,91 @@ const Event = () => {
     },
   ];
 
-  const renderHeader = () => {
-    let headerElement = ["ID", "NAME", "DATE", "DESCRIPTION", "CATEGORY"];
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: theme.palette.common.black,
+      color: theme.palette.common.white,
+    },
+    [`&.${tableCellClasses.body}`]: {
+      fontSize: 14,
+    },
+  }));
 
-    return headerElement.map((header, index) => {
-      return <th key={index}>{header}</th>;
-    });
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    "&:nth-of-type(odd)": {
+      backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    "&:last-child td, &:last-child th": {
+      border: 0,
+    },
+  }));
+
+  const renderHeader = () => {
+    // return headerElement.map((header, index) => {
+    return (
+      <>
+        <StyledTableCell></StyledTableCell>
+        <StyledTableCell align="right">Name</StyledTableCell>
+        <StyledTableCell align="right">DATE</StyledTableCell>
+        <StyledTableCell align="right">DESCRIPTION</StyledTableCell>
+        <StyledTableCell align="right">CATEGORY</StyledTableCell>
+        <StyledTableCell align="right">ID</StyledTableCell>
+        <StyledTableCell align="right">DELETE</StyledTableCell>
+      </>
+    );
+    // });
   };
 
   const renderBody = () => {
     return events.map((eve, i) => {
       return (
-        <tr key={i}>
-          <td>{eve.id}</td>
-          <td>{eve.name}</td>
-          <td>{eve.date}</td>
-          <td>{eve.description}</td>
-          <td>{eve.category}</td>
+        <StyledTableRow key={i}>
+          <StyledTableCell component="th" scope="row">
+            <Button
+              onClick={() => {
+                handleToggleFavorite(eve.id);
+              }}
+            >
+              {eve.favorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+            </Button>
+          </StyledTableCell>
 
-          {/* <td className="opration">
-            <button onClick={() => deleteUser(u.id)}>Delete</button>
-          </td> */}
-        </tr>
+          <StyledTableCell align="right">{eve.name}</StyledTableCell>
+          <StyledTableCell align="right">{eve.date}</StyledTableCell>
+          <StyledTableCell align="right">{eve.description}</StyledTableCell>
+          <StyledTableCell align="right">{eve.category}</StyledTableCell>
+          <StyledTableCell align="right">{eve.id}</StyledTableCell>
+          <StyledTableCell align="right">
+            <Button
+              aria-label="delete"
+              onClick={() => handleDeleteEvent(eve.id)}
+            >
+              {<DeleteIcon style={{ color: "red" }} />}
+            </Button>
+          </StyledTableCell>
+        </StyledTableRow>
       );
     });
   };
 
   const [events, setEvents] = useState(mockEvents);
+  const [toggleFavorite, setToggleFavorite] = useState(false);
 
   const handleAddEventOnSubmit = (newEvent) => {
-    setEvents([...events, newEvent]);
+    setEvents([...events, { ...newEvent, favorite: false }]);
+  };
+
+  const handleDeleteEvent = (id) => {
+    const deleteEvent = events.filter((eve) => eve.id !== id);
+    setEvents(deleteEvent);
+  };
+
+  const handleToggleFavorite = (id) => {
+    const event = events.find((ev) => ev.id === id);
+    event.favorite = !event.favorite;
+    setToggleFavorite(!toggleFavorite);
+    setEvents(events);
   };
 
   return (
@@ -68,12 +138,15 @@ const Event = () => {
       <div>
         <h3>All Events</h3>
 
-        <table id="events-list">
-          <thead>
-            <tr>{renderHeader()}</tr>
-          </thead>
-          <tbody>{renderBody()}</tbody>
-        </table>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 700 }} aria-label="customized table">
+            <TableHead>
+              <TableRow>{renderHeader()}</TableRow>
+            </TableHead>
+            <TableBody>{renderBody()}</TableBody>
+          </Table>
+        </TableContainer>
+
         <AddEvent onAdd={handleAddEventOnSubmit} />
         <DeleteEvent />
         <FindEvent />
