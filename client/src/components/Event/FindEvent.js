@@ -7,8 +7,17 @@ import Button from "@mui/material/Button";
 
 import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
-
+import { createTheme } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
+
+// Or Create your Own theme:
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#DCDCDC",
+    },
+  },
+});
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -51,23 +60,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function FindEvent({ handleSearchEvent }) {
-  // const [searchEveCategory, setSearchEveCategory] = useState("");
-  // const [searchEveFavorite, setSearchEveFavorite] = useState("");
-
   return (
     <>
       <h2>Event Management</h2>
-      <Box bgcolor="info.main" sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static" theme={theme}>
           <Toolbar>
-            {/* <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { xs: "none", sm: "block" } }}
-          >
-            Event Management
-          </Typography> */}
             <Search>
               <SearchIconWrapper>
                 <SearchIcon />

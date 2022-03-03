@@ -14,7 +14,6 @@ const AddEvent = ({ onAdd }) => {
     description: "",
     category: "",
     isFavorite: false,
-    maxAttendees: 10,
   };
 
   const reducer = (state, action) => {
@@ -130,5 +129,3 @@ const AddEvent = ({ onAdd }) => {
 };
 
 export default AddEvent;
-
-//https://devtrium.com/posts/how-to-use-react-usereducer-hook
