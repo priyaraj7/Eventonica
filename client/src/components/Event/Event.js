@@ -71,6 +71,7 @@ const Event = () => {
   const [events, setEvents] = useState(mockEvents);
   const [toggleFavorite, setToggleFavorite] = useState(false);
   const [searchFilter, setSearchFilter] = useState("");
+  const [toggleFavPage, setToggleFavPage] = useState(false);
 
   // Add Event
   const handleAddEventOnSubmit = (newEvent) => {
@@ -92,6 +93,11 @@ const Event = () => {
     event.favorite = !event.favorite;
     setToggleFavorite(!toggleFavorite);
     setEvents(events);
+  };
+
+  // Toggle Favorite page
+  const handleToggleFavPage = () => {
+    setToggleFavPage(!toggleFavPage);
   };
 
   // SearchEvent
@@ -156,7 +162,10 @@ const Event = () => {
 
   return (
     <section className="event-management">
-      <FindEvent handleSearchEvent={handleSearchEvent} />
+      <FindEvent
+        handleSearchEvent={handleSearchEvent}
+        handleToggleFavPage={handleToggleFavPage}
+      />
       <div>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -168,7 +177,6 @@ const Event = () => {
         </TableContainer>
 
         <AddEvent onAdd={handleAddEventOnSubmit} />
-        {/* <DeleteEvent /> */}
       </div>
     </section>
   );

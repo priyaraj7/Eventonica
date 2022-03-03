@@ -4,11 +4,13 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
 
 import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
 import { createTheme } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 // Or Create your Own theme:
 const theme = createTheme({
@@ -59,7 +61,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function FindEvent({ handleSearchEvent }) {
+export default function FindEvent({ handleSearchEvent, handleToggleFavPage }) {
   return (
     <>
       <h2>Event Management</h2>
@@ -83,6 +85,14 @@ export default function FindEvent({ handleSearchEvent }) {
               }}
             >
               Submit
+            </Button>{" "}
+            <Button
+              // variant="contained"
+              onClick={() => {
+                handleToggleFavPage();
+              }}
+            >
+              <FavoriteIcon />
             </Button>
           </Toolbar>
         </AppBar>
