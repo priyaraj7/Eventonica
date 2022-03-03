@@ -116,7 +116,12 @@ const Event = () => {
   const renderBody = () => {
     const categoryRegex = new RegExp(searchFilter, "i");
     const filteredEvent = events.filter((eve) => {
-      return categoryRegex.test(eve.category);
+      return (
+        categoryRegex.test(eve.category) ||
+        categoryRegex.test(eve.name) ||
+        categoryRegex.test(eve.date) ||
+        categoryRegex.test(eve.description)
+      );
     });
     return filteredEvent.map((eve, i) => {
       return (

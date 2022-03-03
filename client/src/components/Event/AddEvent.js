@@ -46,6 +46,7 @@ const AddEvent = ({ onAdd }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   console.log(state);
+  const formRef = React.useRef();
   return (
     <>
       <h3>Add Event</h3>
@@ -58,12 +59,15 @@ const AddEvent = ({ onAdd }) => {
         autoComplete="off"
       >
         <form
+          ref={formRef}
           noValidate
           autoComplete="off"
           id="add-event"
           onSubmit={(e) => {
             e.preventDefault();
-            dispatch({ type: "save", payload: {} });
+            if (formRef.current.reportValidity()) {
+              dispatch({ type: "save", payload: {} });
+            }
           }}
         >
           <TextField
