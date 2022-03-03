@@ -70,6 +70,7 @@ const Event = () => {
   // State
   const [events, setEvents] = useState(mockEvents);
   const [toggleFavorite, setToggleFavorite] = useState(false);
+  const [searchFilter, setSearchFilter] = useState("");
 
   // Add Event
   const handleAddEventOnSubmit = (newEvent) => {
@@ -95,11 +96,7 @@ const Event = () => {
 
   // SearchEvent
   const handleSearchEvent = (category) => {
-    // debugger;
-    const filterEvent = events.filter((eve) => {
-      return eve.category === category;
-    });
-    setEvents(filterEvent);
+    setSearchFilter(category);
   };
 
   const renderHeader = () => {
@@ -117,7 +114,11 @@ const Event = () => {
   };
 
   const renderBody = () => {
-    return events.map((eve, i) => {
+    const categoryRegex = new RegExp(searchFilter, "i");
+    const filteredEvent = events.filter((eve) => {
+      return categoryRegex.test(eve.category);
+    });
+    return filteredEvent.map((eve, i) => {
       return (
         <StyledTableRow key={i}>
           <StyledTableCell component="th" scope="row">

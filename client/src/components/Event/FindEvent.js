@@ -8,9 +8,6 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
 
-import MenuItem from "@mui/material/MenuItem";
-import Menu from "@mui/material/Menu";
-
 import SearchIcon from "@mui/icons-material/Search";
 
 const Search = styled("div")(({ theme }) => ({
@@ -54,34 +51,44 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function FindEvent({ handleSearchEvent }) {
-  const [searchEveCategory, setSearchEveCategory] = useState("");
-  const [searchEveFavorite, setSearchEveFavorite] = useState("");
+  // const [searchEveCategory, setSearchEveCategory] = useState("");
+  // const [searchEveFavorite, setSearchEveFavorite] = useState("");
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography
+    <>
+      <h2>Event Management</h2>
+      <Box bgcolor="info.main" sx={{ flexGrow: 1 }}>
+        <AppBar position="static">
+          <Toolbar>
+            {/* <Typography
             variant="h6"
             noWrap
             component="div"
             sx={{ display: { xs: "none", sm: "block" } }}
           >
             Event Management
-          </Typography>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-              onChange={(e) => handleSearchEvent(e.target.value)}
-            />
-          </Search>
-          <Button variant="contained">Submit</Button>
-        </Toolbar>
-      </AppBar>
-    </Box>
+          </Typography> */}
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search…"
+                inputProps={{ "aria-label": "search" }}
+                onChange={(e) => handleSearchEvent(e.target.value)}
+              />
+            </Search>
+            <Button
+              variant="contained"
+              onClick={() => {
+                handleSearchEvent();
+              }}
+            >
+              Submit
+            </Button>
+          </Toolbar>
+        </AppBar>
+      </Box>
+    </>
   );
 }
