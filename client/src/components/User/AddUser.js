@@ -20,10 +20,6 @@ const AddUser = ({ handleAddOnSubmit }) => {
           noValidate
           autoComplete="off"
           id="add-event"
-          //   onSubmit={(e) => {
-          //     e.preventDefault();
-          //     handleAddOnSubmit();
-          //   }}
           onSubmit={(e) => {
             handleAddOnSubmit({ name, id, email });
             e.preventDefault();

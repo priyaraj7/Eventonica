@@ -11,7 +11,7 @@ import {
   Button,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import DeleteUser from "./DeleteUser";
+
 import AddUser from "./AddUser";
 
 const Users = () => {
@@ -43,15 +43,6 @@ const Users = () => {
   const dory = { name: "Dory", email: "dory@gmail.com", id: "3" };
 
   const [users, setUsers] = useState([marlin, nemo, dory]);
-  // const [name, setName] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [id, setId] = useState();
-
-  const listUsers = users.map((user, index) => (
-    <li key={index}>
-      ID: {user.id} NAME:{user.name} EMAIL:{user.email}
-    </li>
-  ));
 
   // Add user
   const handleAddOnSubmit = (newUser) => {
@@ -104,11 +95,6 @@ const Users = () => {
       <section className="user-management">
         <h2>User Management</h2>
 
-        {/* <ul id="users-list">
-         
-          {listUsers}
-        </ul> */}
-
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
@@ -118,48 +104,6 @@ const Users = () => {
           </Table>
         </TableContainer>
         <AddUser handleAddOnSubmit={handleAddOnSubmit} />
-
-        {/* <div>
-          <h3>Add User</h3>
-          <form id="add-user" action="#" onSubmit={handleAddOnSubmit}>
-            <fieldset>
-              <label>Id:</label>
-              <input
-                value={id}
-                type="text"
-                id="add-user-id"
-                placeholder="id"
-                name="id"
-                required
-                onChange={(e) => setId(e.target.value)}
-              />
-              <label>Name:</label>
-              <input
-                value={name}
-                type="text"
-                id="add-user-name"
-                placeholder="name"
-                name="name"
-                required
-                onChange={(e) => setName(e.target.value)}
-              />
-              <label>Email:</label>
-              <input
-                value={email}
-                type="email"
-                id="add-user-email"
-                placeholder="email"
-                name="email"
-                required
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </fieldset>
-
-            <input type="submit" value="Add" />
-          </form>
-        </div> */}
-        {/* Delete user */}
-        {/* <DeleteUser handleDeleteUser={handleDeleteUser} /> */}
       </section>
     </>
   );
