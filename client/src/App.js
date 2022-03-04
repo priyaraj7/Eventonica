@@ -1,8 +1,8 @@
 import calendar from "./calendar.png";
 import "./App.css";
 import Footer from "./components/Footer";
-import Users from "./components/User/Users";
-import Event from "./components/Event/Event";
+import Users from "./components/Users/Users";
+import Events from "./components/Events/Event";
 import { Container } from "@mui/material";
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
         <main>
           <div className="user-and-events">
             <Users />
-            <Event />
+            <Events />
           </div>
         </main>
 

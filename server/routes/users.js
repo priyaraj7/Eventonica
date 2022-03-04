@@ -10,7 +10,7 @@ let mockUsers = [
 /* GET users listing. */
 router.get("/", function (req, res, next) {
   console.log(req.body, "the body");
-  res.json({ users: [mockUsers] });
+  res.json({ users: mockUsers });
 });
 
 module.exports = router;

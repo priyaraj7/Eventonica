@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import {
@@ -35,14 +35,23 @@ const Users = () => {
       border: 0,
     },
   }));
+  //////
 
-  // Mock Data
+  const [users, setUsers] = useState([]);
 
-  const marlin = { name: "Marlin", email: "marlin@gmail.com", id: "1" };
-  const nemo = { name: "Nemo", email: "nemo@gmail.com", id: "2" };
-  const dory = { name: "Dory", email: "dory@gmail.com", id: "3" };
+  // Access your API from  React app
 
-  const [users, setUsers] = useState([marlin, nemo, dory]);
+  console.log("users", users);
+
+  const getUsers = () => {
+    fetch("http://localhost:4000/users")
+      .then((res) => res.json())
+      .then((res) => setUsers(res.users));
+  };
+
+  useEffect(() => {
+    getUsers(); // useEffect will run getUsers() every time this component loads, as opposed to just the first time it is rendered.
+  }, []);
 
   // Add user
   const handleAddOnSubmit = (newUser) => {

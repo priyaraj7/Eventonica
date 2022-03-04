@@ -13,10 +13,10 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import SearchIcon from "@mui/icons-material/Search";
+// import SearchIcon from "@mui/icons-material/Search";
 
 import AddEvent from "./AddEvent";
-import DeleteEvent from "./DeleteEvent";
+// import DeleteEvent from "./DeleteEvent";
 import FindEvent from "./FindEvent";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({

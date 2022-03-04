@@ -4,9 +4,7 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
-import Grid from "@mui/material/Grid";
 
-import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
 import { createTheme } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
