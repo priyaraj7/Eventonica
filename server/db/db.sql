@@ -23,6 +23,8 @@ VALUES
 
 ALTER TABLE events
 ADD COLUMN isFavorite boolean;
+
+ALTER TABLE events ALTER COLUMN isFavorite SET DEFAULT FALSE;
    
 
 
