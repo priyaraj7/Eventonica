@@ -3,11 +3,6 @@ var router = express.Router();
 
 var db = require("../db/db-connection.js");
 
-/* GET home page. */
-// router.get("/", function (req, res, next) {
-//   res.render("index", { title: "This is my events route." });
-// });
-
 /* GET users listing. */
 
 router.get("/", async function (req, res, next) {
@@ -50,7 +45,7 @@ router.delete("/:id", async (req, res) => {
 
   const eventId = req.params.id;
   try {
-    await db.none("DELETE FROM users WHERE id=$1", [eventId]);
+    await db.none("DELETE FROM events WHERE id=$1", [eventId]);
     res.send({ status: "success" });
   } catch (e) {
     return res.status(400).json({ e });

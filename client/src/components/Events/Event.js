@@ -19,6 +19,8 @@ import AddEvent from "./AddEvent";
 
 import FindEvent from "./FindEvent";
 
+//////////////////////////////////////////////////////////////////
+
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -38,6 +40,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
+
+////////////////////////////////////////////////////////////////////////////
 
 const Events = () => {
   // State
@@ -87,7 +91,12 @@ const Events = () => {
   };
 
   // Delete Event
-  const handleDeleteEvent = (id) => {
+  const handleDeleteEvent = async (id) => {
+    let response = await fetch(`http://localhost:4000/events/${id}`, {
+      method: "DELETE",
+    });
+    await response.json();
+
     const deleteEvent = events.filter((eve) => eve.id !== id);
     setEvents(deleteEvent);
   };
