@@ -1,15 +1,17 @@
 var express = require("express");
 var router = express.Router();
 
+var db = require("../db/db-connection.js");
+
 /* GET home page. */
-router.get("/", function (req, res, next) {
-  res.render("index", { title: "This is my events route." });
-});
+// router.get("/", function (req, res, next) {
+//   res.render("index", { title: "This is my events route." });
+// });
 
 /* GET users listing. */
 
 router.get("/", async function (req, res, next) {
-  const events = await db.any("SELECT * FROM events", [true]);
+  const events = await db.any("SELECT * FROM events");
   try {
     res.send(events);
   } catch (e) {
@@ -28,14 +30,8 @@ router.post("/", async (req, res) => {
     description: req.body.description,
   };
   const query =
-    "INSERT INTO users( id, name, date, category, description) VALUES($1, $2, $3, $4, $5) RETURNING *";
-  const values = [
-    event.id,
-    event.name,
-    event.date,
-    event.category,
-    event.description,
-  ];
+    "INSERT INTO events(name, date, category, description) VALUES($1, $2, $3, $4) RETURNING *";
+  const values = [event.name, event.date, event.category, event.description];
   try {
     const createdEvent = await db.one(query, values);
     console.log(createdEvent);

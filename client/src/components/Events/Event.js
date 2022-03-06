@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
+import { v4 } from "uuid";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import {
   Table,
@@ -13,10 +14,9 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-// import SearchIcon from "@mui/icons-material/Search";
 
 import AddEvent from "./AddEvent";
-// import DeleteEvent from "./DeleteEvent";
+
 import FindEvent from "./FindEvent";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -39,46 +39,51 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-// Mock data
-const Event = () => {
-  const mockEvents = [
-    {
-      id: "1",
-      name: "Birthday",
-      date: "2021-09-01",
-      description: "A birthday party for my best friend",
-      category: "Celebration",
-    },
-
-    {
-      id: "2",
-      name: "Graduation",
-      date: "2021-08-01",
-      description: "The class of 2021 graduates from East High",
-      category: "Education",
-    },
-
-    {
-      id: "3",
-      name: "JS Study Session",
-      date: "2021-10-01",
-      description: "A chance to practice Javascript interview questions",
-      category: "Education",
-    },
-  ];
-
+const Events = () => {
   // State
-  const [events, setEvents] = useState(mockEvents);
+  const [events, setEvents] = useState([]);
   const [toggleFavorite, setToggleFavorite] = useState(false);
   const [searchFilter, setSearchFilter] = useState("");
   const [toggleFavPage, setToggleFavPage] = useState(false);
 
+  // getting all events
+  const getEvents = async () => {
+    const request = await fetch("http://localhost:4000/events");
+    const result = await request.json();
+    setEvents(result);
+  };
+
+  useEffect(() => {
+    getEvents();
+  }, []);
+
   // Add Event
-  const handleAddEventOnSubmit = (newEvent) => {
-    // Filtering the event handler to make it idempotent
+  const handleAddEventOnSubmit = async (newEvent) => {
+    // Filtering the event handler to make it idempotent, useReducer calls action multiple times
     // https://github.com/facebook/react/issues/16295
-    const existingEvents = events.filter((e) => e.id !== newEvent.id);
-    setEvents([...existingEvents, { ...newEvent, favorite: false }]);
+    const eventExists = events.find(
+      (e) =>
+        e.name === newEvent.name &&
+        e.category === newEvent.category &&
+        e.date === newEvent.date &&
+        e.description === newEvent.description
+    );
+    if (eventExists) return;
+    const tempId = v4();
+    const newTempEvent = { ...newEvent, favorite: false, id: tempId };
+    setEvents([...events, newTempEvent]);
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newEvent),
+    };
+    const request = await fetch("http://localhost:4000/events", requestOptions);
+
+    const result = await request.json();
+    setEvents([
+      ...events.filter((e) => e.id !== tempId),
+      { ...newTempEvent, id: result.id },
+    ]);
   };
 
   // Delete Event
@@ -182,4 +187,4 @@ const Event = () => {
   );
 };
 
-export default Event;
+export default Events;
