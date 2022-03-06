@@ -54,9 +54,19 @@ const Users = () => {
   }, []);
 
   // Add user
-  const handleAddOnSubmit = (newUser) => {
+  const handleAddOnSubmit = async (newUser) => {
     const existingUses = users.filter((u) => u.id !== newUser.id);
     setUsers([...existingUses, { ...newUser }]);
+
+    // Simple POST request with a JSON body using fetch
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newUser),
+    };
+    const request = await fetch("http://localhost:4000/users", requestOptions);
+
+    const result = await request.json();
   };
 
   // Delete user
