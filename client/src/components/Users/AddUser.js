@@ -4,7 +4,7 @@ import { TextField, Button, Box } from "@mui/material";
 const AddUser = ({ handleAddOnSubmit }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [id, setId] = useState("");
+  // const [id, setId] = useState("");
   return (
     <>
       <h3>Add User</h3>
@@ -21,17 +21,17 @@ const AddUser = ({ handleAddOnSubmit }) => {
           autoComplete="off"
           id="add-event"
           onSubmit={(e) => {
-            handleAddOnSubmit({ name, id, email });
+            handleAddOnSubmit({ name, email });
             e.preventDefault();
           }}
         >
-          <TextField
+          {/* <TextField
             onChange={(e) => setId(e.target.value)}
             value={id}
             label="User Id"
             variant="standard"
             required
-          />
+          /> */}
           <TextField
             value={name}
             label="Name"

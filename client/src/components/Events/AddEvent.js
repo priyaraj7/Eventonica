@@ -31,8 +31,8 @@ const AddEvent = ({ onAdd }) => {
 
       case "editDate":
         return { ...state, date: action.payload };
-      case "editId":
-        return { ...state, id: action.payload };
+      // case "editId":
+      //   return { ...state, id: action.payload };
       case "save":
         onAdd({ ...state });
       case "clear":
@@ -110,7 +110,7 @@ const AddEvent = ({ onAdd }) => {
             required
             value={state.description}
           />
-          <TextField
+          {/* <TextField
             onChange={(ev) =>
               dispatch({ type: "editId", payload: ev.target.value })
             }
@@ -118,7 +118,7 @@ const AddEvent = ({ onAdd }) => {
             variant="standard"
             required
             value={state.id}
-          />
+          /> */}
           <Button type="submit" variant="contained">
             Submit
           </Button>
