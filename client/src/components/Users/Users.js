@@ -58,7 +58,7 @@ const Users = () => {
     const existingUses = users.filter((u) => u.id !== newUser.id);
     setUsers([...existingUses, { ...newUser }]);
 
-    // Simple POST request with a JSON body using fetch
+    // Simple POST request with a JSON body
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -66,11 +66,18 @@ const Users = () => {
     };
     const request = await fetch("http://localhost:4000/users", requestOptions);
 
-    const result = await request.json();
+    await request.json();
   };
 
   // Delete user
-  const handleDeleteUser = (deleteUser) => {
+  const handleDeleteUser = async (deleteUser) => {
+    // Simple DELETE HTTP request with async await
+
+    let response = await fetch(`http://localhost:4000/users/${deleteUser}`, {
+      method: "DELETE",
+    });
+    await response.json();
+    // delete functionality
     const deleteUsers = users.filter((user) => user.id !== deleteUser);
     console.log(deleteUsers);
     setUsers(deleteUsers);

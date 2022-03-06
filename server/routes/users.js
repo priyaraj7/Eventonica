@@ -10,8 +10,9 @@ router.get("/", async function (req, res, next) {
   try {
     res.send(users);
   } catch (e) {
-    console.error("error when running db query", e);
-    res.status(500).statusMessage("DB threw error");
+    console.log(e);
+    // console.error("error when running db query", e);
+    // res.status(500).statusMessage("DB threw error");
   }
 });
 
@@ -30,6 +31,9 @@ router.post("/", async (req, res) => {
     console.log(createdUser);
     res.send(createdUser);
   } catch (e) {
+    if (e.code === "23505") {
+      res.status(400).json({ code: "23505", message: "User already exists" });
+    }
     return res.status(400).json({ e });
   }
 });
