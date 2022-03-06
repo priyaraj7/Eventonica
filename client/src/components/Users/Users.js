@@ -43,10 +43,10 @@ const Users = () => {
 
   console.log("users", users);
 
-  const getUsers = () => {
-    fetch("http://localhost:4000/users")
-      .then((res) => res.json())
-      .then((res) => setUsers(res.users));
+  const getUsers = async () => {
+    const request = await fetch("http://localhost:4000/users");
+    const result = await request.json();
+    setUsers(result);
   };
 
   useEffect(() => {
