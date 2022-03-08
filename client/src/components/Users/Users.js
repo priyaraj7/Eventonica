@@ -9,6 +9,7 @@ import {
   TableRow,
   Paper,
   Button,
+  Box,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
@@ -129,6 +130,16 @@ const Users = () => {
             <TableBody>{renderBody()}</TableBody>
           </Table>
         </TableContainer>
+        <Box
+          sx={{
+            mx: "auto",
+            width: 200,
+            p: 1,
+            m: 1,
+          }}
+        >
+          <Button variant="contained">Add User</Button>
+        </Box>
         <AddUser handleAddOnSubmit={handleAddOnSubmit} />
       </section>
     </>

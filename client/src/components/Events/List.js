@@ -1,6 +1,7 @@
+import FindEvent from "./FindEvent";
 import React, { useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
-import { v4 } from "uuid";
+
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import {
   Table,
@@ -10,14 +11,13 @@ import {
   TableRow,
   Paper,
   Button,
+  TablePagination,
+  Box,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-
-import AddEvent from "./AddEvent";
-
-import FindEvent from "./FindEvent";
+import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
 
 //////////////////////////////////////////////////////////////////
 
@@ -43,70 +43,18 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 ////////////////////////////////////////////////////////////////////////////
 
-const Events = () => {
-  // State
-  const [events, setEvents] = useState([]);
-  const [toggleFavorite, setToggleFavorite] = useState(false);
+const ListEvents = ({
+  handleAddEventOnSubmit,
+  handleToggleFavorite,
+  handleDeleteEvent,
+
+  events,
+}) => {
   const [searchFilter, setSearchFilter] = useState("");
   const [toggleFavPage, setToggleFavPage] = useState(false);
 
-  // getting all events
-  const getEvents = async () => {
-    const request = await fetch("http://localhost:4000/events");
-    const result = await request.json();
-    setEvents(result);
-  };
-
-  useEffect(() => {
-    getEvents();
-  }, []);
-
-  // Add Event
-  const handleAddEventOnSubmit = async (newEvent) => {
-    // Filtering the event handler to make it idempotent, useReducer calls action multiple times
-    // https://github.com/facebook/react/issues/16295
-    const eventExists = events.find(
-      (e) =>
-        e.name === newEvent.name &&
-        e.category === newEvent.category &&
-        e.date === newEvent.date &&
-        e.description === newEvent.description
-    );
-    if (eventExists) return;
-    const tempId = v4();
-    const newTempEvent = { ...newEvent, favorite: false, id: tempId };
-    setEvents([...events, newTempEvent]);
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newEvent),
-    };
-    const request = await fetch("http://localhost:4000/events", requestOptions);
-
-    const result = await request.json();
-    setEvents([
-      ...events.filter((e) => e.id !== tempId),
-      { ...newTempEvent, id: result.id },
-    ]);
-  };
-
-  // Delete Event
-  const handleDeleteEvent = async (id) => {
-    let response = await fetch(`http://localhost:4000/events/${id}`, {
-      method: "DELETE",
-    });
-    await response.json();
-
-    const deleteEvent = events.filter((eve) => eve.id !== id);
-    setEvents(deleteEvent);
-  };
-
-  // Toggle Favorite
-  const handleToggleFavorite = (id) => {
-    const event = events.find((ev) => ev.id === id);
-    event.favorite = !event.favorite;
-    setToggleFavorite(!toggleFavorite);
-    setEvents(events);
+  const handleSearchEvent = (category) => {
+    setSearchFilter(category);
   };
 
   // Toggle Favorite page
@@ -114,20 +62,17 @@ const Events = () => {
     setToggleFavPage(!toggleFavPage);
   };
 
-  // SearchEvent
-  const handleSearchEvent = (category) => {
-    setSearchFilter(category);
-  };
-
   const renderHeader = () => {
     return (
       <>
         <StyledTableCell></StyledTableCell>
+        <StyledTableCell align="right">ID</StyledTableCell>
         <StyledTableCell align="right">Name</StyledTableCell>
         <StyledTableCell align="right">DATE</StyledTableCell>
         <StyledTableCell align="right">DESCRIPTION</StyledTableCell>
         <StyledTableCell align="right">CATEGORY</StyledTableCell>
-        <StyledTableCell align="right">ID</StyledTableCell>
+        <StyledTableCell align="right">EDIT</StyledTableCell>
+
         <StyledTableCell align="right">DELETE</StyledTableCell>
       </>
     );
@@ -155,12 +100,17 @@ const Events = () => {
               {eve.favorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
             </Button>
           </StyledTableCell>
-
+          <StyledTableCell align="right">{eve.id}</StyledTableCell>
           <StyledTableCell align="right">{eve.name}</StyledTableCell>
           <StyledTableCell align="right">{eve.date}</StyledTableCell>
           <StyledTableCell align="right">{eve.description}</StyledTableCell>
           <StyledTableCell align="right">{eve.category}</StyledTableCell>
-          <StyledTableCell align="right">{eve.id}</StyledTableCell>
+
+          <StyledTableCell align="right">
+            <Button aria-label="edit">
+              {<EditTwoToneIcon style={{ color: "orange" }} />}
+            </Button>
+          </StyledTableCell>
           <StyledTableCell align="right">
             <Button
               aria-label="delete"
@@ -173,27 +123,59 @@ const Events = () => {
       );
     });
   };
-
   return (
     <section className="event-management">
-      <FindEvent
-        handleSearchEvent={handleSearchEvent}
-        handleToggleFavPage={handleToggleFavPage}
-      />
+      <Box
+        sx={{
+          mx: "auto",
+          // width: 200,
+          p: 1,
+          m: 1,
+        }}
+      >
+        <FindEvent
+          handleSearchEvent={handleSearchEvent}
+          handleToggleFavPage={handleToggleFavPage}
+        />
+      </Box>
       <div>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 700 }} aria-label="customized table">
-            <TableHead>
-              <TableRow>{renderHeader()}</TableRow>
-            </TableHead>
-            <TableBody>{renderBody()}</TableBody>
-          </Table>
-        </TableContainer>
+        <Paper>
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 700 }} aria-label="customized table">
+              <TableHead>
+                <TableRow>{renderHeader()}</TableRow>
+              </TableHead>
+              <TableBody>{renderBody()}</TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            pageSize={5}
+            rowsPerPageOptions={[5]}
+            // rowsPerPageOptions={[5, 10, 25]}
+            // component="div"
+            // count={rows.length}
+            // rowsPerPage={rowsPerPage}
+            // page={page}
+            // onPageChange={handleChangePage}
+            // onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </Paper>
 
-        <AddEvent onAdd={handleAddEventOnSubmit} />
+        <Box
+          sx={{
+            mx: "auto",
+            width: 200,
+            p: 1,
+            m: 1,
+          }}
+        >
+          <Button variant="contained">Add Event</Button>
+        </Box>
+
+        {/* <AddEvent /> */}
       </div>
     </section>
   );
 };
 
-export default Events;
+export default ListEvents;

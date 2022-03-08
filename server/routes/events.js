@@ -52,4 +52,36 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+/* update events listing. */
+router.put("/:id", async (req, res) => {
+  const eventId = req.params.id;
+
+  // const { name, date, category, description, isFavorite } = request.body
+
+  const event = {
+    id: req.body.id,
+    name: req.body.name,
+    date: req.body.date,
+    category: req.body.category,
+    description: req.body.description,
+    isfavorite: req.body.isfavorite,
+  };
+  const query = `UPDATE events SET name = $1, date = $2, category = $3, description = $4, isfavorite= $5 WHERE id = ${eventId} RETURNING *`;
+
+  const values = [
+    event.name,
+    event.date,
+    event.category,
+    event.description,
+    event.isfavorite,
+  ];
+  try {
+    const updatedEvent = await db.any(query, values);
+    console.log(updatedEvent);
+    res.send(updatedEvent);
+  } catch (e) {
+    return res.status(400).json({ e });
+  }
+});
+
 module.exports = router;
