@@ -6,7 +6,7 @@ import AddEvent from "./AddEvent";
 import EditEvent from "./EditEvent";
 import ListEvents from "./List";
 
-export default ListEvents = () => {
+const Control1 = () => {
   // State
   const [events, setEvents] = useState([]);
   const [searchFilter, setSearchFilter] = useState("");
@@ -100,8 +100,11 @@ export default ListEvents = () => {
 
   return (
     <Routes>
-      <Route path="add" element={<AddEvent onAdd={handleAddEventOnSubmit} />} />
-      <Route path="edit/:id" element={<EditEvent />} />
+      <Route
+        path="/add"
+        element={<AddEvent onAdd={handleAddEventOnSubmit} />}
+      />
+      <Route path="/edit/:id" element={<EditEvent />} />
       <Route
         index={true}
         element={
@@ -114,3 +117,4 @@ export default ListEvents = () => {
     </Routes>
   );
 };
+export default Control1;

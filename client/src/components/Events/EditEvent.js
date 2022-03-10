@@ -1,4 +1,4 @@
-const EditEvent = () => {
+const EditEvent = ({}) => {
   return <></>;
 };
 

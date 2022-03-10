@@ -1,6 +1,7 @@
 import FindEvent from "./FindEvent";
 import React, { useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
 
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import {
@@ -50,6 +51,7 @@ const ListEvents = ({
 
   events,
 }) => {
+  const navigate = useNavigate();
   const [searchFilter, setSearchFilter] = useState("");
   const [toggleFavPage, setToggleFavPage] = useState(false);
 
@@ -169,7 +171,14 @@ const ListEvents = ({
             m: 1,
           }}
         >
-          <Button variant="contained">Add Event</Button>
+          <Button
+            variant="contained"
+            onClick={() => {
+              navigate("./add");
+            }}
+          >
+            Add Event
+          </Button>
         </Box>
 
         {/* <AddEvent /> */}

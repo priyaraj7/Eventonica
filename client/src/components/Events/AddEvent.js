@@ -1,5 +1,6 @@
 import React, { useReducer } from "react";
 import { TextField, Button, Box } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const AddEvent = ({ onAdd }) => {
   const current = new Date();
@@ -7,6 +8,7 @@ const AddEvent = ({ onAdd }) => {
     current.getMonth() + 1
   }/${current.getFullYear()}`;
 
+  const navigate = useNavigate();
   const initialState = {
     id: "",
     name: "",
@@ -35,6 +37,7 @@ const AddEvent = ({ onAdd }) => {
       //   return { ...state, id: action.payload };
       case "save":
         onAdd({ ...state });
+        navigate("..");
       case "clear":
         return { ...initialState };
       default:
