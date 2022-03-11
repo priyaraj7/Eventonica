@@ -19,6 +19,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
+import CircularProgress from "@mui/material/CircularProgress";
 
 //////////////////////////////////////////////////////////////////
 
@@ -109,9 +110,16 @@ const ListEvents = ({
           <StyledTableCell align="right">{eve.category}</StyledTableCell>
 
           <StyledTableCell align="right">
-            <Button aria-label="edit">
-              {<EditTwoToneIcon style={{ color: "orange" }} />}
-            </Button>
+            {eve.saving ? (
+              <CircularProgress />
+            ) : (
+              <Button
+                aria-label="edit"
+                onClick={() => navigate(`./edit/${eve.id}`)}
+              >
+                {<EditTwoToneIcon style={{ color: "orange" }} />}
+              </Button>
+            )}
           </StyledTableCell>
           <StyledTableCell align="right">
             <Button
@@ -150,7 +158,7 @@ const ListEvents = ({
               <TableBody>{renderBody()}</TableBody>
             </Table>
           </TableContainer>
-          <TablePagination
+          {/* <TablePagination
             pageSize={5}
             rowsPerPageOptions={[5]}
             // rowsPerPageOptions={[5, 10, 25]}
@@ -160,7 +168,7 @@ const ListEvents = ({
             // page={page}
             // onPageChange={handleChangePage}
             // onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          /> */}
         </Paper>
 
         <Box

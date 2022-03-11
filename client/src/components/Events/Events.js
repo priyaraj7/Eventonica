@@ -21,6 +21,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
 
 import AddEvent from "./AddEvent";
+import EditEvent from "./EditEvent";
 
 import FindEvent from "./FindEvent";
 

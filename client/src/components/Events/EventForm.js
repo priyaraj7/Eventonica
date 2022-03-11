@@ -1,5 +1,8 @@
-import React, { useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 import { TextField, Button, Box } from "@mui/material";
+import DateAdapter from "@mui/lab/AdapterMoment";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import DatePicker from "@mui/lab/DatePicker";
 
 const EventForm = ({ handleSubmit, id, name, date, description, category }) => {
   // const current = new Date();
@@ -16,10 +19,8 @@ const EventForm = ({ handleSubmit, id, name, date, description, category }) => {
   };
 
   const reducer = (state, action) => {
-    console.log(action, "this is the action");
     switch (action.type) {
       case "editName":
-        console.log("Logged if the editName action is being dispatched");
         return { ...state, name: action.payload };
 
       case "editDescription":
@@ -30,10 +31,6 @@ const EventForm = ({ handleSubmit, id, name, date, description, category }) => {
 
       case "editDate":
         return { ...state, date: action.payload };
-      // case "editId":
-      //   return { ...state, id: action.payload };
-      case "save":
-        handleSubmit({ ...state });
       case "clear":
         return { ...initialState };
       default:
@@ -43,7 +40,6 @@ const EventForm = ({ handleSubmit, id, name, date, description, category }) => {
 
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  console.log(state);
   const formRef = React.useRef();
 
   return (
@@ -65,7 +61,7 @@ const EventForm = ({ handleSubmit, id, name, date, description, category }) => {
           onSubmit={(e) => {
             e.preventDefault();
             if (formRef.current.reportValidity()) {
-              dispatch({ type: "save", payload: {} });
+              handleSubmit(state);
             }
           }}
         >
@@ -87,8 +83,18 @@ const EventForm = ({ handleSubmit, id, name, date, description, category }) => {
             value={state.category}
             required
           />
-
-          <TextField
+          <LocalizationProvider dateAdapter={DateAdapter}>
+            <DatePicker
+              disablePast
+              label="Date"
+              value={state.date}
+              onChange={(value) =>
+                dispatch({ type: "editDate", payload: value })
+              }
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </LocalizationProvider>
+          {/* <TextField
             name="someDate"
             label="Date"
             InputLabelProps={{ shrink: true, required: true }}
@@ -98,7 +104,7 @@ const EventForm = ({ handleSubmit, id, name, date, description, category }) => {
             }
             value={state.date}
             required
-          />
+          /> */}
           <TextField
             onChange={(event) =>
               dispatch({

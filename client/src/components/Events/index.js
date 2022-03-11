@@ -20,8 +20,16 @@ const Control1 = () => {
     setEvents(result);
   };
 
+  let isMounted;
+
   useEffect(() => {
-    getEvents();
+    isMounted = true;
+    if (isMounted) {
+      getEvents();
+    }
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   // Add Event
@@ -65,19 +73,30 @@ const Control1 = () => {
   };
 
   // Edit Event
-  const handleOnEdit = async (id) => {
+  const handleOnEdit = async (event) => {
     // Simple PUT request with a JSON body using fetch
     const requestOptions = {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(id),
+      body: JSON.stringify(event),
     };
-    const response = await fetch(
-      `http://localhost:4000/events/${id}`,
-      requestOptions
-    );
-    await response.json();
-    // .then(data => this.setState({ postId: data.id }));
+
+    try {
+      setEvents(
+        events.map((e) => (e.id === event.id ? { ...event, saving: true } : e))
+      );
+      const response = await fetch(
+        `http://localhost:4000/events/${event.id}`,
+        requestOptions
+      );
+      const result = await response.json();
+      setEvents([...events.filter((e) => e.id !== event.id), result]);
+    } catch (e) {
+      setEvents(
+        events.map((e) => (e.id === event.id ? { ...e, saving: false } : e))
+      );
+      console.log("Error while saving event");
+    }
   };
 
   // Toggle Favorite
@@ -104,7 +123,10 @@ const Control1 = () => {
         path="/add"
         element={<AddEvent onAdd={handleAddEventOnSubmit} />}
       />
-      <Route path="/edit/:id" element={<EditEvent />} />
+      <Route
+        path="/edit/:id"
+        element={<EditEvent events={events} handleSubmit={handleOnEdit} />}
+      />
       <Route
         index={true}
         element={

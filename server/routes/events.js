@@ -64,22 +64,16 @@ router.put("/:id", async (req, res) => {
     date: req.body.date,
     category: req.body.category,
     description: req.body.description,
-    isfavorite: req.body.isfavorite,
   };
-  const query = `UPDATE events SET name = $1, date = $2, category = $3, description = $4, isfavorite= $5 WHERE id = ${eventId} RETURNING *`;
+  const query = `UPDATE events SET name = $1, date = $2, category = $3, description = $4 WHERE id = ${eventId} RETURNING *`;
 
-  const values = [
-    event.name,
-    event.date,
-    event.category,
-    event.description,
-    event.isfavorite,
-  ];
+  const values = [event.name, event.date, event.category, event.description];
   try {
-    const updatedEvent = await db.any(query, values);
+    const updatedEvent = await db.oneOrNone(query, values);
     console.log(updatedEvent);
     res.send(updatedEvent);
   } catch (e) {
+    console.log(e);
     return res.status(400).json({ e });
   }
 });
