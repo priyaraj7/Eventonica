@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { v4 } from "uuid";
-import { useNavigate } from "react-router-dom";
+
 import AddEvent from "./AddEvent";
 import EditEvent from "./EditEvent";
-import DeleteEvent from "./DeleteEvent";
+
 import ListEvents from "./List";
 
 const Control1 = () => {
   // State
   const [events, setEvents] = useState([]);
-  const [searchFilter, setSearchFilter] = useState("");
-  const [toggleFavorite, setToggleFavorite] = useState(false);
+
   const [toggleFavPage, setToggleFavPage] = useState(false);
 
   // getting all events
@@ -127,16 +126,6 @@ const Control1 = () => {
       updatedEvent.isfavorite = !updatedEvent.isfavorite;
       setEvents([...events.filter((e) => e.id !== id), updatedEvent]);
     }
-  };
-
-  // Toggle Favorite page
-  const handleToggleFavPage = () => {
-    setToggleFavPage(!toggleFavPage);
-  };
-
-  // SearchEvent
-  const handleSearchEvent = (category) => {
-    setSearchFilter(category);
   };
 
   return (

@@ -113,7 +113,7 @@ const ListEvents = ({
               )}
             </Button>
           </StyledTableCell>
-          {/* <StyledTableCell align="right">{eve.id}</StyledTableCell> */}
+
           <StyledTableCell align="left">{eve.name}</StyledTableCell>
           <StyledTableCell align="left">
             {dateFormatter.format(new Date(eve.date))}

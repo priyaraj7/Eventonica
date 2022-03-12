@@ -1,15 +1,10 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useReducer } from "react";
 import { TextField, Button, Box } from "@mui/material";
 import DateAdapter from "@mui/lab/AdapterMoment";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
 
 const EventForm = ({ handleSubmit, id, name, date, description, category }) => {
-  // const current = new Date();
-  // const date = `${current.getDate()}/${
-  //   current.getMonth() + 1
-  // }/${current.getFullYear()}`;
-
   const initialState = {
     id,
     name,
@@ -94,17 +89,7 @@ const EventForm = ({ handleSubmit, id, name, date, description, category }) => {
               renderInput={(params) => <TextField {...params} />}
             />
           </LocalizationProvider>
-          {/* <TextField
-            name="someDate"
-            label="Date"
-            InputLabelProps={{ shrink: true, required: true }}
-            type="date"
-            onChange={(event) =>
-              dispatch({ type: "editDate", payload: event.target.value })
-            }
-            value={state.date}
-            required
-          /> */}
+
           <TextField
             onChange={(event) =>
               dispatch({
@@ -119,15 +104,7 @@ const EventForm = ({ handleSubmit, id, name, date, description, category }) => {
             required
             value={state.description}
           />
-          {/* <TextField
-            onChange={(ev) =>
-              dispatch({ type: "editId", payload: ev.target.value })
-            }
-            label="id"
-            variant="standard"
-            required
-            value={state.id}
-          /> */}
+
           <Button type="submit" variant="contained">
             Submit
           </Button>

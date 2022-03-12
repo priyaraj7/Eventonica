@@ -113,15 +113,7 @@ const AddEvent = ({ onAdd }) => {
             required
             value={state.description}
           />
-          {/* <TextField
-            onChange={(ev) =>
-              dispatch({ type: "editId", payload: ev.target.value })
-            }
-            label="id"
-            variant="standard"
-            required
-            value={state.id}
-          /> */}
+
           <Button type="submit" variant="contained">
             Submit
           </Button>

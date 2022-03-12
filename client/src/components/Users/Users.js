@@ -87,10 +87,9 @@ const Users = () => {
   const renderHeader = () => {
     return (
       <>
-        <StyledTableCell>Id</StyledTableCell>
-        <StyledTableCell align="right">Name</StyledTableCell>
-        <StyledTableCell align="right">Email</StyledTableCell>
-        <StyledTableCell align="right">DELETE</StyledTableCell>
+        <StyledTableCell align="left">Name</StyledTableCell>
+        <StyledTableCell align="left">Email</StyledTableCell>
+        <StyledTableCell align="left">DELETE</StyledTableCell>
       </>
     );
   };
@@ -99,11 +98,10 @@ const Users = () => {
     return users.map((user, i) => {
       return (
         <StyledTableRow key={i}>
-          <StyledTableCell>{user.id}</StyledTableCell>
-          <StyledTableCell align="right">{user.name}</StyledTableCell>
-          <StyledTableCell align="right">{user.email}</StyledTableCell>
+          <StyledTableCell align="left">{user.name}</StyledTableCell>
+          <StyledTableCell align="left">{user.email}</StyledTableCell>
 
-          <StyledTableCell align="right">
+          <StyledTableCell align="left">
             <Button
               aria-label="delete"
               onClick={() => handleDeleteUser(user.id)}
