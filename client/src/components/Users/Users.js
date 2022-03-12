@@ -137,9 +137,7 @@ const Users = () => {
             p: 1,
             m: 1,
           }}
-        >
-          <Button variant="contained">Add User</Button>
-        </Box>
+        ></Box>
         <AddUser handleAddOnSubmit={handleAddOnSubmit} />
       </section>
     </>

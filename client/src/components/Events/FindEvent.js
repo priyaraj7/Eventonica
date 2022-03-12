@@ -97,7 +97,7 @@ export default function FindEvent({ handleSearchEvent, handleToggleFavPage }) {
                     handleToggleFavPage();
                   }}
                 >
-                  <FavoriteIcon style={{ color: "#f54284" }} />
+                  <FavoriteIcon style={{ color: "#f54284" }} /> Filter favorite
                 </Button>
               </IconButton>
             </Tooltip>
