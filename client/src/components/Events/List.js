@@ -25,8 +25,8 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
+    backgroundColor: theme.palette.action.hoover,
+    color: theme.palette.primary.dark,
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
@@ -69,21 +69,21 @@ const ListEvents = ({
     return (
       <>
         <StyledTableCell></StyledTableCell>
-        <StyledTableCell align="right">ID</StyledTableCell>
-        <StyledTableCell align="right">Name</StyledTableCell>
-        <StyledTableCell align="right">DATE</StyledTableCell>
-        <StyledTableCell align="right">DESCRIPTION</StyledTableCell>
-        <StyledTableCell align="right">CATEGORY</StyledTableCell>
-        <StyledTableCell align="right">EDIT</StyledTableCell>
+        {/* <StyledTableCell align="right">ID</StyledTableCell> */}
+        <StyledTableCell align="left">Name</StyledTableCell>
+        <StyledTableCell align="left">DATE</StyledTableCell>
+        <StyledTableCell align="left">DESCRIPTION</StyledTableCell>
+        <StyledTableCell align="left">CATEGORY</StyledTableCell>
+        <StyledTableCell align="left">EDIT</StyledTableCell>
 
-        <StyledTableCell align="right">DELETE</StyledTableCell>
+        <StyledTableCell align="left">DELETE</StyledTableCell>
       </>
     );
   };
 
   const renderBody = () => {
     const categoryRegex = new RegExp(searchFilter, "i");
-    const filteredEvent = events.filter((eve) => {
+    let filteredEvent = events.filter((eve) => {
       return (
         categoryRegex.test(eve.category) ||
         categoryRegex.test(eve.name) ||
@@ -91,6 +91,12 @@ const ListEvents = ({
         categoryRegex.test(eve.description)
       );
     });
+
+    if (toggleFavPage) {
+      filteredEvent = filteredEvent.filter((e) => e.isfavorite === true);
+    }
+
+    const dateFormatter = new Intl.DateTimeFormat("en", { dateStyle: "short" });
     return filteredEvent.map((eve, i) => {
       return (
         <StyledTableRow key={i}>
@@ -100,16 +106,22 @@ const ListEvents = ({
                 handleToggleFavorite(eve.id);
               }}
             >
-              {eve.favorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+              {eve.isfavorite ? (
+                <FavoriteIcon style={{ color: "#f54284" }} />
+              ) : (
+                <FavoriteBorderIcon style={{ color: "#f54284" }} />
+              )}
             </Button>
           </StyledTableCell>
-          <StyledTableCell align="right">{eve.id}</StyledTableCell>
-          <StyledTableCell align="right">{eve.name}</StyledTableCell>
-          <StyledTableCell align="right">{eve.date}</StyledTableCell>
-          <StyledTableCell align="right">{eve.description}</StyledTableCell>
-          <StyledTableCell align="right">{eve.category}</StyledTableCell>
+          {/* <StyledTableCell align="right">{eve.id}</StyledTableCell> */}
+          <StyledTableCell align="left">{eve.name}</StyledTableCell>
+          <StyledTableCell align="left">
+            {dateFormatter.format(new Date(eve.date))}
+          </StyledTableCell>
+          <StyledTableCell align="left">{eve.description}</StyledTableCell>
+          <StyledTableCell align="left">{eve.category}</StyledTableCell>
 
-          <StyledTableCell align="right">
+          <StyledTableCell align="left">
             {eve.saving ? (
               <CircularProgress />
             ) : (
@@ -158,17 +170,6 @@ const ListEvents = ({
               <TableBody>{renderBody()}</TableBody>
             </Table>
           </TableContainer>
-          {/* <TablePagination
-            pageSize={5}
-            rowsPerPageOptions={[5]}
-            // rowsPerPageOptions={[5, 10, 25]}
-            // component="div"
-            // count={rows.length}
-            // rowsPerPage={rowsPerPage}
-            // page={page}
-            // onPageChange={handleChangePage}
-            // onRowsPerPageChange={handleChangeRowsPerPage}
-          /> */}
         </Paper>
 
         <Box

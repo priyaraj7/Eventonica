@@ -19,8 +19,8 @@ const Users = () => {
   // CSS
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
+      backgroundColor: theme.palette.action.hoover,
+      color: theme.palette.primary.dark,
     },
     [`&.${tableCellClasses.body}`]: {
       fontSize: 14,

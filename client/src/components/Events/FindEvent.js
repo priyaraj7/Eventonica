@@ -9,6 +9,9 @@ import InputBase from "@mui/material/InputBase";
 import { createTheme } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
 
 // Or Create your Own theme:
 const theme = createTheme({
@@ -63,35 +66,41 @@ export default function FindEvent({ handleSearchEvent, handleToggleFavPage }) {
   return (
     <>
       <h2>Event Management</h2>
-      <Box sx={{ flexGrow: 1 }}>
+      <Box>
         <AppBar position="static" theme={theme}>
           <Toolbar>
-            <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Search…"
-                inputProps={{ "aria-label": "search" }}
-                onChange={(e) => handleSearchEvent(e.target.value)}
-              />
-            </Search>
-            <Button
+            <Box sx={{ flexGrow: 1 }}>
+              <Search align="left">
+                <SearchIconWrapper>
+                  <SearchIcon />
+                </SearchIconWrapper>
+                <StyledInputBase
+                  placeholder="Search by name/ date/ description/ category"
+                  inputProps={{ "aria-label": "search" }}
+                  onChange={(e) => handleSearchEvent(e.target.value)}
+                />
+              </Search>
+            </Box>
+            {/* <Button
               variant="contained"
               onClick={() => {
                 handleSearchEvent();
               }}
             >
               Submit
-            </Button>{" "}
-            <Button
-              // variant="contained"
-              onClick={() => {
-                handleToggleFavPage();
-              }}
-            >
-              <FavoriteIcon />
-            </Button>
+            </Button>{" "} */}
+            <Tooltip title="Toggle favorite event">
+              <IconButton>
+                <Button
+                  // variant="contained"
+                  onClick={() => {
+                    handleToggleFavPage();
+                  }}
+                >
+                  <FavoriteIcon style={{ color: "#f54284" }} />
+                </Button>
+              </IconButton>
+            </Tooltip>
           </Toolbar>
         </AppBar>
       </Box>

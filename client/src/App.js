@@ -1,7 +1,7 @@
 import calendar from "./calendar.png";
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
-// import Header from "./components/Header";
+import { Routes, Route, Link } from "react-router-dom";
+import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Users from "./components/Users/Users";
 import Events from "./components/Events";
@@ -12,11 +12,21 @@ function App() {
     <>
       <Container>
         <div className="App">
-          {/* <Header /> */}
-          <header>
+          {/* <header>
             <img src={calendar} alt="Calendar Star Logo" />
-            <h1>Eventonica</h1>
-          </header>
+            <h1>Eventonica</h1> */}
+          <nav>
+            <ul>
+              <li>
+                <Link to="/">Users</Link>
+              </li>
+
+              <li>
+                <Link to="/events">Events</Link>
+              </li>
+            </ul>
+          </nav>
+          {/* </header> */}
 
           <main>
             <div className="user-and-events">

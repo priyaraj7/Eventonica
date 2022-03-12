@@ -1,203 +1,86 @@
-// IMPORTING APIS
-import React from "react";
-import {
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-  useMediaQuery,
-  Button,
-  useScrollTrigger,
-  Slide,
-  Menu,
-  MenuItem,
-  ListItemIcon,
-} from "@material-ui/core";
+// import * as React from "react";
+// import PropTypes from "prop-types";
+// import Box from "@mui/material/Box";
+// import Tabs from "@mui/material/Tabs";
+// import Tab from "@mui/material/Tab";
+// import Typography from "@mui/material/Typography";
+// import {
+//   MemoryRouter,
+//   Route,
+//   Routes,
+//   Link,
+//   matchPath,
+//   useLocation,
+// } from "react-router-dom";
+// import { StaticRouter } from "react-router-dom/server";
 
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
+// function Router(props) {
+//   const { children } = props;
+//   if (typeof window === "undefined") {
+//     return <StaticRouter location="/drafts">{children}</StaticRouter>;
+//   }
 
-// IMPORTING ICONS
-import MenuIcon from "@material-ui/icons/Menu";
-import HomeIcon from "@material-ui/icons/Home";
-import SchoolIcon from "@material-ui/icons/School";
-import PersonIcon from "@material-ui/icons/Person";
-import BookmarksIcon from "@material-ui/icons/Bookmarks";
+//   return (
+//     <MemoryRouter initialEntries={["/drafts"]} initialIndex={0}>
+//       {children}
+//     </MemoryRouter>
+//   );
+// }
 
-// REACT APP IMPORTS
-import Home from "./Pages/Home";
-import College from "./Pages/College";
-import About from "./Pages/About";
-import Personal from "./Pages/Personal";
+// Router.propTypes = {
+//   children: PropTypes.node,
+// };
 
-// LOCAL-STYLING
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-  },
-}));
+// function useRouteMatch(patterns) {
+//   const { pathname } = useLocation();
 
-function HideOnScroll(props) {
-  const { children } = props;
-  const trigger = useScrollTrigger();
+//   for (let i = 0; i < patterns.length; i += 1) {
+//     const pattern = patterns[i];
+//     const possibleMatch = matchPath(pattern, pathname);
+//     if (possibleMatch !== null) {
+//       return possibleMatch;
+//     }
+//   }
 
-  return (
-    <Slide appear={false} direction={"down"} in={!trigger}>
-      {children}
-    </Slide>
-  );
-}
+//   return null;
+// }
 
-const Header = (props) => {
-  const classes = useStyles();
-  const [anchor, setAnchor] = React.useState(null);
-  const open = Boolean(anchor);
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const handleMenu = (event) => {
-    setAnchor(event.currentTarget);
-  };
-  return (
-    <div className={classes.root}>
-      <HideOnScroll {...props}>
-        <BrowserRouter>
-          <AppBar>
-            <Toolbar>
-              <Typography
-                variant="h5"
-                component="p"
-                color="textSecondary"
-                className={classes.title}
-              >
-                Murali
-              </Typography>
-              {isMobile ? (
-                <>
-                  <IconButton
-                    color="textPrimary"
-                    className={classes.menuButton}
-                    edge="start"
-                    aria-label="menu"
-                    onClick={handleMenu}
-                  >
-                    <MenuIcon />
-                  </IconButton>
-                  <Menu
-                    id="menu-appbar"
-                    anchorEl={anchor}
-                    anchorOrigin={{
-                      vertical: "top",
-                      horizontal: "right",
-                    }}
-                    KeepMounted
-                    transformOrigin={{
-                      vertical: "top",
-                      horizontal: "right",
-                    }}
-                    open={open}
-                  >
-                    <MenuItem
-                      onClick={() => setAnchor(null)}
-                      component={Link}
-                      to="/"
-                    >
-                      <ListItemIcon>
-                        <HomeIcon />
-                      </ListItemIcon>
-                      <Typography variant="h6"> Home</Typography>
-                    </MenuItem>
-                    <MenuItem
-                      onClick={() => setAnchor(null)}
-                      component={Link}
-                      to="/College"
-                    >
-                      <ListItemIcon>
-                        <SchoolIcon />
-                      </ListItemIcon>
-                      <Typography variant="h6"> College </Typography>
-                    </MenuItem>
-                    <MenuItem
-                      onClick={() => setAnchor(null)}
-                      component={Link}
-                      to="/About"
-                    >
-                      <ListItemIcon>
-                        <PersonIcon />
-                      </ListItemIcon>
-                      <Typography variant="h6"> About</Typography>
-                    </MenuItem>
-                    <MenuItem
-                      onClick={() => setAnchor(null)}
-                      component={Link}
-                      to="/Personal"
-                    >
-                      <ListItemIcon>
-                        <BookmarksIcon />
-                      </ListItemIcon>
-                      <Typography variant="h6"> Personal </Typography>
-                    </MenuItem>
-                  </Menu>
-                </>
-              ) : (
-                <div style={{ marginRight: "2rem" }}>
-                  <Button
-                    variant="text"
-                    component={Link}
-                    to="/"
-                    color="default"
-                  >
-                    <HomeIcon />
-                    Home
-                  </Button>
-                  <Button
-                    variant="text"
-                    component={Link}
-                    to="/College"
-                    color="default"
-                  >
-                    <SchoolIcon />
-                    College
-                  </Button>
-                  <Button
-                    variant="text"
-                    component={Link}
-                    to="/About"
-                    color="default"
-                  >
-                    <PersonIcon />
-                    About
-                  </Button>
-                  <Button
-                    variant="text"
-                    component={Link}
-                    to="/Personal"
-                    color="default"
-                  >
-                    <BookmarksIcon />
-                    Personal
-                  </Button>
-                </div>
-              )}
-            </Toolbar>
-          </AppBar>
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/College" component={College} />
-            <Route exact path="/About" component={About} />
-            <Route exact path="/Personal" component={Personal} />
-          </Switch>
-        </BrowserRouter>
-      </HideOnScroll>
-    </div>
-  );
-};
+// function MyTabs() {
+//   // You need to provide the routes in descendant order.
+//   // This means that if you have nested routes like:
+//   // users, users/new, users/edit.
+//   // Then the order should be ['users/add', 'users/edit', 'users'].
+//   const routeMatch = useRouteMatch(["/inbox/:id", "/drafts", "/trash"]);
+//   const currentTab = routeMatch?.pattern?.path;
 
-export default Header;
+//   return (
+//     <Tabs value={currentTab}>
+//       <Tab label="Inbox" value="/inbox/:id" to="/inbox/1" component={Link} />
+//       <Tab label="Drafts" value="/drafts" to="/drafts" component={Link} />
+//       <Tab label="Trash" value="/trash" to="/trash" component={Link} />
+//     </Tabs>
+//   );
+// }
 
-//https://codesandbox.io/s/responsivenavbarmaterial-ui-60czl?file=/src/Components/Header.js:0-5972
+// function CurrentRoute() {
+//   const location = useLocation();
+
+//   return (
+//     <Typography variant="body2" sx={{ pb: 2 }} color="text.secondary">
+//       Current route: {location.pathname}
+//     </Typography>
+//   );
+// }
+
+// export default function TabsRouter() {
+//   return (
+//     <Router>
+//       <Box sx={{ width: "100%" }}>
+//         <Routes>
+//           <Route path="*" element={<CurrentRoute />} />
+//         </Routes>
+//         <MyTabs />
+//       </Box>
+//     </Router>
+//   );
+// }

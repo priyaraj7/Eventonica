@@ -78,4 +78,27 @@ router.put("/:id", async (req, res) => {
   }
 });
 
+/* toggle favorite events listing. */
+router.put("/favorite/:id", async (req, res) => {
+  // const eventId = req.params.id;
+
+  const event = {
+    id: req.params.id,
+    isfavorite: req.body.isfavorite,
+  };
+
+  console.log(event);
+  const query = `UPDATE events SET isfavorite = $1  WHERE id = $2 RETURNING *`;
+
+  const values = [event.isfavorite, event.id];
+  try {
+    const updatedEvent = await db.many(query, values);
+    console.log(updatedEvent);
+    res.send(updatedEvent);
+  } catch (e) {
+    console.log(e);
+    return res.status(400).json({ e });
+  }
+});
+
 module.exports = router;

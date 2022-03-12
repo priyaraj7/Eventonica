@@ -44,7 +44,7 @@ const EventForm = ({ handleSubmit, id, name, date, description, category }) => {
 
   return (
     <>
-      <h3>Add/Edit Event</h3>
+      <h3>Edit Event</h3>
       <Box
         component="div"
         sx={{

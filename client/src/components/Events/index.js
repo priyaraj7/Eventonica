@@ -4,6 +4,7 @@ import { v4 } from "uuid";
 import { useNavigate } from "react-router-dom";
 import AddEvent from "./AddEvent";
 import EditEvent from "./EditEvent";
+import DeleteEvent from "./DeleteEvent";
 import ListEvents from "./List";
 
 const Control1 = () => {
@@ -100,11 +101,32 @@ const Control1 = () => {
   };
 
   // Toggle Favorite
-  const handleToggleFavorite = (id) => {
+  const handleToggleFavorite = async (id) => {
+    // debugger;
     const event = events.find((ev) => ev.id === id);
-    event.favorite = !event.favorite;
-    setToggleFavorite(!toggleFavorite);
-    setEvents(events);
+    event.isfavorite = !event.isfavorite;
+    events.saving = true;
+    setEvents([...events.filter((e) => e.id !== id), event]);
+    const requestOptions = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ isfavorite: event.isfavorite }),
+    };
+    try {
+      const response = await fetch(
+        `http://localhost:4000/events/favorite/${id}`,
+        requestOptions
+      );
+      const result = await response.json();
+      const updatedEvent = events.find((e) => e.id === id);
+      updatedEvent.saving = false;
+      setEvents([...events.filter((e) => e.id !== id), updatedEvent]);
+    } catch (error) {
+      const updatedEvent = events.find((e) => e.id === id);
+      updatedEvent.saving = false;
+      updatedEvent.isfavorite = !updatedEvent.isfavorite;
+      setEvents([...events.filter((e) => e.id !== id), updatedEvent]);
+    }
   };
 
   // Toggle Favorite page
@@ -118,25 +140,29 @@ const Control1 = () => {
   };
 
   return (
-    <Routes>
-      <Route
-        path="/add"
-        element={<AddEvent onAdd={handleAddEventOnSubmit} />}
-      />
-      <Route
-        path="/edit/:id"
-        element={<EditEvent events={events} handleSubmit={handleOnEdit} />}
-      />
-      <Route
-        index={true}
-        element={
-          <ListEvents
-            events={events}
-            handleToggleFavorite={handleToggleFavorite}
-          />
-        }
-      />
-    </Routes>
+    <>
+      <Routes>
+        <Route
+          path="/add"
+          element={<AddEvent onAdd={handleAddEventOnSubmit} />}
+        />
+        <Route
+          path="/edit/:id"
+          element={<EditEvent events={events} handleSubmit={handleOnEdit} />}
+        />
+
+        <Route
+          index={true}
+          element={
+            <ListEvents
+              events={events}
+              handleToggleFavorite={handleToggleFavorite}
+              handleDeleteEvent={handleDeleteEvent}
+            />
+          }
+        />
+      </Routes>
+    </>
   );
 };
 export default Control1;
