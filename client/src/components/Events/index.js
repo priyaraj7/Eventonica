@@ -15,7 +15,7 @@ const Control1 = () => {
 
   // getting all events
   const getEvents = async () => {
-    const request = await fetch("http://localhost:4000/events");
+    const request = await fetch("/api/events");
     const result = await request.json();
     setEvents(result);
   };
@@ -52,7 +52,7 @@ const Control1 = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newEvent),
     };
-    const request = await fetch("http://localhost:4000/events", requestOptions);
+    const request = await fetch("/api/events", requestOptions);
 
     const result = await request.json();
     setEvents([
@@ -63,7 +63,7 @@ const Control1 = () => {
 
   // Delete Event
   const handleDeleteEvent = async (id) => {
-    let response = await fetch(`http://localhost:4000/events/${id}`, {
+    let response = await fetch(`/api/events/${id}`, {
       method: "DELETE",
     });
     await response.json();
@@ -85,10 +85,7 @@ const Control1 = () => {
       setEvents(
         events.map((e) => (e.id === event.id ? { ...event, saving: true } : e))
       );
-      const response = await fetch(
-        `http://localhost:4000/events/${event.id}`,
-        requestOptions
-      );
+      const response = await fetch(`/api/events/${event.id}`, requestOptions);
       const result = await response.json();
       setEvents([...events.filter((e) => e.id !== event.id), result]);
     } catch (e) {
@@ -113,7 +110,7 @@ const Control1 = () => {
     };
     try {
       const response = await fetch(
-        `http://localhost:4000/events/favorite/${id}`,
+        `/api/events/favorite/${id}`,
         requestOptions
       );
       const result = await response.json();

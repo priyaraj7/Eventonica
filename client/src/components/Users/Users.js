@@ -45,7 +45,7 @@ const Users = () => {
   console.log("users", users);
 
   const getUsers = async () => {
-    const request = await fetch("http://localhost:4000/users");
+    const request = await fetch("/api/users");
     const result = await request.json();
     setUsers(result);
   };
@@ -65,7 +65,7 @@ const Users = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newUser),
     };
-    const request = await fetch("http://localhost:4000/users", requestOptions);
+    const request = await fetch("/api/users", requestOptions);
 
     await request.json();
   };
@@ -74,7 +74,7 @@ const Users = () => {
   const handleDeleteUser = async (deleteUser) => {
     // Simple DELETE HTTP request with async await
 
-    let response = await fetch(`http://localhost:4000/users/${deleteUser}`, {
+    let response = await fetch(`/api/users/${deleteUser}`, {
       method: "DELETE",
     });
     await response.json();

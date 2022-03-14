@@ -1,0 +1,11 @@
+*
+!client/package*.json
+!client/public
+!client/src
+!package*.json
+!server/package*.json
+!server/*.js
+!server/routes/*.js
+!server/views/*.pug
+!server/db/*.js
+!server/bin

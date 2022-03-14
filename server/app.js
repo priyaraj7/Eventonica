@@ -4,8 +4,8 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var cors = require("cors");
+var mime = require("mime-types");
 
-var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var eventsRouter = require("./routes/events");
 
@@ -22,9 +22,27 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
 
-app.use("/", indexRouter);
-app.use("/users", usersRouter);
-app.use("/events", eventsRouter);
+app.use("/api/users", usersRouter);
+app.use("/api/events", eventsRouter);
+
+app.get("/api/ping", (request, response) =>
+  response.json({ response: "pong" }),
+);
+
+if (process.env?.SERVE_REACT?.toLowerCase() === "true") {
+  app.use(
+    express.static("/app", {
+      maxAge: "1d",
+      setHeaders: (res, path) =>
+        ["application/json", "text/html"].includes(mime.lookup(path)) &&
+        res.setHeader("Cache-Control", "public, max-age=0"),
+    }),
+  );
+
+  app.get("*", (req, res) => {
+    res.sendFile("/app/index.html");
+  });
+}
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

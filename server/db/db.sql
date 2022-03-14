@@ -12,7 +12,8 @@ CREATE TABLE events (
 	name VARCHAR(255) NOT NULL,
     category VARCHAR(255) NOT NULL,
 	description VARCHAR (255),
-    date DATE
+    date DATE,
+	isfavorite boolean DEFAULT FALSE
 );
 
 INSERT INTO 
@@ -21,12 +22,5 @@ VALUES
     ('Birthday', 'Celebration', 'A birthday party for my mom', '2022-09-01' ),
     ('JS Study group', 'Education', 'Techtonica study event', '2022-05-01');
 
-ALTER TABLE events
-ADD COLUMN isFavorite boolean;
-
-ALTER TABLE events ALTER COLUMN isFavorite SET DEFAULT FALSE;
-
-
-   
 
 
