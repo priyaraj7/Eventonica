@@ -81,24 +81,15 @@ export default function FindEvent({ handleSearchEvent, handleToggleFavPage }) {
                 />
               </Search>
             </Box>
-            {/* <Button
-              variant="contained"
-              onClick={() => {
-                handleSearchEvent();
-              }}
-            >
-              Submit
-            </Button>{" "} */}
+
             <Tooltip title="Toggle favorite event">
-              <IconButton>
-                <Button
-                  // variant="contained"
-                  onClick={() => {
-                    handleToggleFavPage();
-                  }}
-                >
-                  <FavoriteIcon style={{ color: "#f54284" }} /> Filter favorite
-                </Button>
+              <IconButton
+                onClick={() => {
+                  handleToggleFavPage();
+                }}
+              >
+                <FavoriteIcon style={{ color: "#f54284" }} fontSize="small" />
+                Filter favorite
               </IconButton>
             </Tooltip>
           </Toolbar>
