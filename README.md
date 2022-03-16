@@ -2,7 +2,7 @@
 
 Eventonica is a Event management app
 
-## User Story : You can check [Live Demo here](<(https://still-fjord-09983.herokuapp.com/)>)
+## User Story : You can check [Live Demo here]((https://still-fjord-09983.herokuapp.com/))
 
 #### Events
 
