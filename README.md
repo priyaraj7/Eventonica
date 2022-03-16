@@ -38,6 +38,10 @@ Eventonica is a Event management app
 - Docker
 - Heroku
 
+### Issue
+
+[useReducer dispatch calls reduce twice](https://github.com/facebook/react/issues/16295)
+
 ### Resourse:
 
 [Database](https://vitaly-t.github.io/pg-promise/Database.html)
